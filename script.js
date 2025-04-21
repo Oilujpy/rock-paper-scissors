@@ -10,3 +10,8 @@ function getComputerChoice() {
         return "scissors"
     }
 }
+
+function getHumanChoice() {
+    const choice = prompt("Welcome to Rock, Paper and Scissors! Pick your weapon:").toLocaleLowerCase();
+    return choice;
+}
