@@ -13,9 +13,8 @@ const computerChoice = () => {
 }
 
 // function expression
-const humanChoice = () => {
-    const choice = prompt("Welcome to Rock, Paper and Scissors! Pick your weapon:").toLocaleLowerCase();
-    return choice;
+const humanChoice = (event) => {
+    return event.target.id;
 }
 
 function playGame() {
@@ -41,11 +40,15 @@ function playGame() {
         }
     }
 
-    // game loop
-    for (let index = 1; index < 6; index++) {
-        playRound(humanChoice(), computerChoice());
-        console.log(`This is round: ${index}.`);
-    }
+    // buttons reference
+    const rockBtn = document.querySelector("#rock");
+    const paperBtn = document.querySelector("#paper");
+    const scissorsBtn = document.querySelector("#scissors");
+
+    // event to buttons
+    rockBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
+    paperBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
+    scissorsBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
 
     // score for the 5 rounds
     console.log(`Human Score: ${humanScore} ... Computer score: ${computerScore}`);
