@@ -1,4 +1,3 @@
-// function expression
 const computerChoice = () => {
     const randomNumber = Math.floor(Math.random() * 3) + 1;
     if (randomNumber === 1) {
@@ -12,48 +11,51 @@ const computerChoice = () => {
     }
 }
 
-// function expression
 const humanChoice = (event) => {
     return event.target.id;
 }
 
+const getWinner = (scoreHuman, scoreComputer, scoreWebElement, resultWebElement) => {
+    if (scoreHuman >= 5) {
+        scoreWebElement.textContent = "YOU WIN!";
+        resultWebElement.appendChild(scoreWebElement);
+    } else if (scoreComputer >= 5) {
+        scoreWebElement.textContent = "COMPUTER WINS!";
+        resultWebElement.appendChild(scoreWebElement);
+    }
+}
+ 
 function playGame() {
     let humanScore = 0;
     let computerScore = 0;
 
-    // moved playRound function per requirement
+    const buttons = document.querySelectorAll("button");
+ 
+    buttons.forEach((button) => {
+        button.addEventListener("click", (e) => {playRound(humanChoice(e), computerChoice())})
+    })
+
     function playRound(humanChoice, computerChoice) {
-        winMsg = `You win! ${humanChoice} beats ${computerChoice}`;
-        loseMsg = `You lose! ${computerChoice} beats ${humanChoice}`
-        draw = `It's a draw! ${computerChoice} can't beat ${humanChoice}`
+        const results = document.querySelector(".results");
+        const score = document.createElement("p");
 
         if (humanChoice === "rock" && computerChoice === "scissors" || humanChoice === "paper" && computerChoice === "rock" || humanChoice === "scissors" && computerChoice === "paper") {
-            console.log(winMsg);
             humanScore++;
+            score.textContent = `Human: ${humanScore} ... Computer: ${computerScore} | ${humanChoice} beats ${computerChoice}`;
+            results.appendChild(score);
         }
         else if (humanChoice === "rock" && computerChoice === "paper" || humanChoice === "paper" && computerChoice === "scissors" || humanChoice === "scissors" && computerChoice === "rock") {
-            console.log(loseMsg);
             computerScore++;
+            score.textContent = `Human: ${humanScore} ... Computer: ${computerScore} | ${computerChoice} beats ${humanChoice}`;
+            results.appendChild(score);
         }
         else {
-            console.log(draw);
+            score.textContent = `Human: ${humanScore} ... Computer: ${computerScore} | ${computerChoice} can't beat ${humanChoice}`;
+            results.appendChild(score);
         }
+
+        getWinner(humanScore,computerScore,score,results);
     }
-
-    // buttons reference
-    const rockBtn = document.querySelector("#rock");
-    const paperBtn = document.querySelector("#paper");
-    const scissorsBtn = document.querySelector("#scissors");
-
-    // event to buttons
-    rockBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
-    paperBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
-    scissorsBtn.addEventListener("click", (e) => playRound(humanChoice(e), computerChoice()));
-
-    // score for the 5 rounds
-    console.log(`Human Score: ${humanScore} ... Computer score: ${computerScore}`);
 }
 
-
-// play the game
 playGame();
